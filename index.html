@@ -64,6 +64,7 @@
                 url = 'https://www.google.com/search?q=' + encodeURIComponent(input);
             }
 
+            console.log('Setting iframe src to:', proxyServerUrl + encodeURIComponent(url));
             iframe.src = proxyServerUrl + encodeURIComponent(url);
         });
 
