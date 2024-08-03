@@ -69,6 +69,7 @@
                 url = 'https://www.google.com/search?q=' + encodeURIComponent(input);
             }
 
+            console.log('Proxying to:', proxyServerUrl + encodeURIComponent(url));
             iframe.src = proxyServerUrl + encodeURIComponent(url);
         });
 
@@ -85,7 +86,17 @@
         });
 
         robloxButton.addEventListener('click', () => {
+            console.log('Proxying to Roblox:', proxyServerUrl + encodeURIComponent('https://www.roblox.com/games'));
             iframe.src = proxyServerUrl + encodeURIComponent('https://www.roblox.com/games');
+        });
+
+        // Error handling for iframe load issues
+        iframe.addEventListener('load', () => {
+            console.log('Iframe loaded:', iframe.src);
+        });
+
+        iframe.addEventListener('error', (err) => {
+            console.error('Iframe load error:', err);
         });
     </script>
 </body>
