@@ -1,9 +1,15 @@
 // api/proxy.js
 export default async function handler(req, res) {
-    const { url } = req.query;
+    let { url } = req.query;
 
     if (!url) {
         return res.status(400).json({ error: 'URL parameter is required' });
+    }
+
+    // Convert URL to lowercase and ensure it has a scheme
+    url = url.toLowerCase();
+    if (!/^https?:\/\//i.test(url)) {
+        url = 'http://' + url;
     }
 
     try {
