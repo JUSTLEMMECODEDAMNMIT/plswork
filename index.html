@@ -69,6 +69,18 @@
         .fullscreen-btn:hover {
             background-color: #005bb5;
         }
+        .roblox-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #ff9900;
+            color: white;
+            cursor: pointer;
+        }
+        .roblox-btn:hover {
+            background-color: #e68a00;
+        }
     </style>
 </head>
 <body>
@@ -80,6 +92,7 @@
             <button type="submit">Search</button>
         </form>
         <button class="fullscreen-btn" id="fullscreen-btn">Fullscreen</button>
+        <button class="roblox-btn" id="roblox-btn">Play Roblox</button>
         <iframe id="content" src=""></iframe>
     </div>
 
@@ -88,9 +101,12 @@
             event.preventDefault();
             const url = document.getElementById('url').value.trim();
             if (url) {
-                // Set iframe source to the serverless function with the URL parameter
                 document.getElementById('content').src = `/api/proxy?url=${encodeURIComponent(url)}`;
             }
+        });
+
+        document.getElementById('roblox-btn').addEventListener('click', function() {
+            document.getElementById('content').src = 'https://www.roblox.com';
         });
 
         const fullscreenBtn = document.getElementById('fullscreen-btn');
