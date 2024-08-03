@@ -29,13 +29,12 @@ app.get('/proxy', (req, res) => {
     }
 });
 
-// Handle 404 for other routes
+// Serve static files and handle errors
 app.use((req, res, next) => {
     console.log('404 Not Found - Serving 404.html');
     res.status(404).sendFile(path.join(__dirname, 'static', '404.html'));
 });
 
-// Handle errors
 app.use((err, req, res, next) => {
     console.error('Server error:', err);
     res.status(500).sendFile(path.join(__dirname, 'static', '500.html'));
