@@ -3,114 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Proxy</title>
+    <title>Proxy</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f9;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f4f4f4;
         }
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-        input[type="text"] {
-            width: 80%;
-            max-width: 800px;
+        #url-input {
+            width: 300px;
             padding: 10px;
-            margin-right: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            font-size: 16px;
+            margin: 20px 0;
         }
-        button {
+        #go-button, #fullscreen-button, #roblox-button {
             padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            background-color: #0070f3;
-            color: white;
+            font-size: 16px;
+            margin: 10px;
             cursor: pointer;
-        }
-        button:hover {
-            background-color: #005bb5;
         }
         iframe {
-            border: none;
             width: 100%;
             height: 80vh;
-            min-height: 600px;
-            max-height: 90vh;
-            transition: height 0.3s ease;
-        }
-        .fullscreen-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 10px 20px;
             border: none;
-            border-radius: 4px;
-            background-color: #0070f3;
-            color: white;
-            cursor: pointer;
-            z-index: 10;
-        }
-        .fullscreen-btn:hover {
-            background-color: #005bb5;
-        }
-        .roblox-btn {
-            margin-top: 20px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            background-color: #ff9900;
-            color: white;
-            cursor: pointer;
-        }
-        .roblox-btn:hover {
-            background-color: #e68a00;
-        }
-        .fallback-message {
-            display: none;
-            margin-top: 20px;
-            font-size: 1.2em;
-            color: #ff0000;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Simple Proxy</h1>
-        <p>Enter a domain, URL, or search term:</p>
-        <form id="proxy-form">
-            <input type="text" id="url" placeholder="Enter domain, URL, or search term" required>
-            <button type="submit">Search</button>
-        </form>
-        <button class="fullscreen-btn" id="fullscreen-btn">Fullscreen</button>
-        <button class="roblox-btn" id="roblox-btn">Play Roblox</button>
-        <iframe id="content" src=""></iframe>
-        <div class="fallback-message" id="fallback-message">
-            It seems the content cannot be displayed. You can visit <a href="https://www.roblox.com" target="_blank">Roblox</a> directly.
-        </div>
-    </div>
+    <h1>Proxy</h1>
+    <input type="text" id="url-input" placeholder="Enter URL or search term">
+    <button id="go-button">Go</button>
+    <button id="fullscreen-button">Fullscreen</button>
+    <button id="roblox-button">Play Roblox</button>
+    <iframe id="iframe" src=""></iframe>
 
     <script>
-        document.getElementById('proxy-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const url = document.getElementById('url').value.trim();
-            const iframe = document.getElementById('content');
-            const fallbackMessage = document.getElementById('fallback-message');
-            
-            if (url) {
-                if (url.match(/\.(com|org|net|edu|gov|io|me|co|us|biz|info|tv|ca|uk|de|fr|jp|au|ru|br|cn|kr|in|es|nl|it|se|no|dk|fi|be|at|ch|ie|nz|mx|za|ar|pl|pt|tr|gr|hk|sg|th|my|id|ph|vn|il|sa|ae|eg|ng|ke|gh|tz|zm|ug|mw|ls|sz|zm|bw|na|mu|sc|mv|pk|bd|lk|np|bt|mm|kh|la|bn|tl|af|ir|iq|sy|jo|lb|ye|om|kw|qa|bh|ae|il|ps|tn|ma|dz|ly|sd|ss|cm|ci|gh|ng|sn|ug|tz|ke|mg|mz|ao|et|er|so|dj|sz|bw|zm|zm|bw|na|bw|bw|bw|bw|bw|zw|mu|re|yt|km|er|so|dj|cv|st|gq|gw|mr|ml|ne|sn|gm|gn|lr|ci|bf|tg|bj|ng|gh|cf|cm|gq|st|cg|ga|gq|sa|qa|ae|bh|kw|om|ye|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|cn|jp|kr|mn|kp|ru|mn|kz|uz|tm|kg|tj|az|am|ge|tr|sy|iq|lb|jo|il|ps|kw|bh|qa|ae|om|ye|sa|ir|af|pk|bd|lk|mv|in|np|bt|mm|th|la|kh|vn|my|sg|bn|ph|id|tl|
+        const goButton = document.getElementById('go-button');
+        const fullscreenButton = document.getElementById('fullscreen-button');
+        const robloxButton = document.getElementById('roblox-button');
+        const iframe = document.getElementById('iframe');
+
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
+        goButton.addEventListener('click', () => {
+            const input = document.getElementById('url-input').value.trim();
+            let url;
+
+            if (input === '') return;
+
+            if (isValidUrl(input) || /^(https?:\/\/)/i.test(input)) {
+                url = input.startsWith('http') ? input : 'http://' + input;
+            } else if (/\.[a-z]{2,}$/.test(input)) {
+                url = 'http://' + input;
+            } else {
+                url = 'https://www.google.com/search?q=' + encodeURIComponent(input);
+            }
+
+            iframe.src = url;
+        });
+
+        fullscreenButton.addEventListener('click', () => {
+            if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+            } else if (iframe.mozRequestFullScreen) { /* Firefox */
+                iframe.mozRequestFullScreen();
+            } else if (iframe.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                iframe.webkitRequestFullscreen();
+            } else if (iframe.msRequestFullscreen) { /* IE/Edge */
+                iframe.msRequestFullscreen();
+            }
+        });
+
+        robloxButton.addEventListener('click', () => {
+            iframe.src = 'https://www.roblox.com/games';
+        });
+    </script>
+</body>
+</html>
