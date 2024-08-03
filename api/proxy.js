@@ -33,7 +33,6 @@ app.get('/proxy', (req, res) => {
 
 // Serve static 404 and 500 pages
 app.use((req, res, next) => {
-    console.log('Serving static file for:', req.url);
     res.status(404).sendFile(path.join(__dirname, '../static', '404.html'));
 });
 
