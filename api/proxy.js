@@ -9,6 +9,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const proxy = httpProxy.createProxyServer({ changeOrigin: true });
 
+// Serve static files
 app.use(express.static(path.join(__dirname, '../static')));
 
 // Proxy endpoint
@@ -20,7 +21,7 @@ app.get('/proxy', (req, res) => {
         return res.status(400).send('Target URL is required');
     }
 
-    console.log('Proxying request for:', targetUrl);
+    console.log('Proxying request to:', targetUrl);
 
     proxy.web(req, res, { target: targetUrl, changeOrigin: true }, (err) => {
         if (err) {
@@ -30,13 +31,12 @@ app.get('/proxy', (req, res) => {
     });
 });
 
-// Serve static files
+// Serve static 404 and 500 pages
 app.use((req, res, next) => {
     console.log('Serving static file for:', req.url);
     res.status(404).sendFile(path.join(__dirname, '../static', '404.html'));
 });
 
-// Error handling
 app.use((err, req, res, next) => {
     console.error('Server error:', err);
     res.status(500).sendFile(path.join(__dirname, '../static', '500.html'));
