@@ -12,19 +12,13 @@
             margin: 0;
             padding: 0;
         }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            padding: 20px;
-        }
-        input[type="text"] {
-            width: 100%;
+        #url-input {
+            width: 300px;
             padding: 10px;
             font-size: 16px;
             margin: 20px 0;
-            box-sizing: border-box;
         }
-        button {
+        #go-button, #fullscreen-button, #roblox-button {
             padding: 10px 20px;
             font-size: 16px;
             margin: 10px;
@@ -38,38 +32,47 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Proxy</h1>
-        <input type="text" id="url-input" placeholder="Enter URL or search term">
-        <button id="go-button">Go</button>
-        <button id="fullscreen-button">Fullscreen</button>
-        <button id="roblox-button">Play Roblox</button>
-        <iframe id="iframe"></iframe>
-    </div>
+    <h1>Proxy</h1>
+    <input type="text" id="url-input" placeholder="Enter URL or search term">
+    <button id="go-button">Go</button>
+    <button id="fullscreen-button">Fullscreen</button>
+    <button id="roblox-button">Play Roblox</button>
+    <iframe id="iframe" src=""></iframe>
 
     <script>
-        document.getElementById('go-button').addEventListener('click', () => {
+        const goButton = document.getElementById('go-button');
+        const fullscreenButton = document.getElementById('fullscreen-button');
+        const robloxButton = document.getElementById('roblox-button');
+        const iframe = document.getElementById('iframe');
+        const proxyServerUrl = '/proxy?target=';
+
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
+        goButton.addEventListener('click', () => {
             const input = document.getElementById('url-input').value.trim();
-            const iframe = document.getElementById('iframe');
-            const proxyServerUrl = '/proxy?target=';
+            let url;
 
             if (input === '') return;
 
-            let url;
-            if (/^(https?:\/\/)/i.test(input)) {
-                url = input;
-            } else if (/\.[a-z]{2,}$/i.test(input)) {
+            if (isValidUrl(input) || /^(https?:\/\/)/i.test(input)) {
+                url = input.startsWith('http') ? input : 'http://' + input;
+            } else if (/\.[a-z]{2,}$/.test(input)) {
                 url = 'http://' + input;
             } else {
                 url = 'https://www.google.com/search?q=' + encodeURIComponent(input);
             }
 
-            console.log('Setting iframe src to:', proxyServerUrl + encodeURIComponent(url));
             iframe.src = proxyServerUrl + encodeURIComponent(url);
         });
 
-        document.getElementById('fullscreen-button').addEventListener('click', () => {
-            const iframe = document.getElementById('iframe');
+        fullscreenButton.addEventListener('click', () => {
             if (iframe.requestFullscreen) {
                 iframe.requestFullscreen();
             } else if (iframe.mozRequestFullScreen) { /* Firefox */
@@ -81,8 +84,17 @@
             }
         });
 
-        document.getElementById('roblox-button').addEventListener('click', () => {
-            document.getElementById('iframe').src = '/proxy?target=https://www.roblox.com/games';
+        robloxButton.addEventListener('click', () => {
+            iframe.src = proxyServerUrl + encodeURIComponent('https://www.roblox.com/games');
+        });
+
+        // Error handling for iframe load issues
+        iframe.addEventListener('load', () => {
+            console.log('Iframe loaded:', iframe.src);
+        });
+
+        iframe.addEventListener('error', (err) => {
+            console.error('Iframe load error:', err);
         });
     </script>
 </body>
