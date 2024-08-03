@@ -1,9 +1,9 @@
-const { createServer } = require('http');
-const { createProxyServer } = require('http-proxy');
+const http = require('http');
+const httpProxy = require('http-proxy');
 const url = require('url');
-const proxy = createProxyServer({});
+const proxy = httpProxy.createProxyServer({});
 
-const server = createServer((req, res) => {
+const server = http.createServer((req, res) => {
     const parsedUrl = url.parse(req.url, true);
     const targetUrl = parsedUrl.query.target;
 
@@ -13,15 +13,13 @@ const server = createServer((req, res) => {
             res.end('Something went wrong. And we are reporting a custom error message.');
         });
     } else {
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.end('<html><body><h1>Proxy</h1><p>Use <code>?target=URL</code> to proxy a request.</p></body></html>');
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        res.end('404 Not Found');
     }
 });
 
 server.on('error', (err, req, res) => {
-    res.writeHead(500, {
-        'Content-Type': 'text/plain'
-    });
+    res.writeHead(500, { 'Content-Type': 'text/plain' });
     res.end('Something went wrong. And we are reporting a custom error message.');
 });
 
