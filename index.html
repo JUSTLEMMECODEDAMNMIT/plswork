@@ -65,7 +65,7 @@
             } else if (/\.[a-z]{2,}$/.test(input)) {
                 url = 'http://' + input;
             } else {
-                url = 'https://www.google.com/search?q=' + encodeURIComponent(input);
+                url = '/proxy?target=' + encodeURIComponent('https://www.google.com/search?q=' + encodeURIComponent(input));
             }
 
             iframe.src = url;
@@ -84,7 +84,7 @@
         });
 
         robloxButton.addEventListener('click', () => {
-            iframe.src = 'https://www.roblox.com/games';
+            iframe.src = '/proxy?target=' + encodeURIComponent('https://www.roblox.com/games');
         });
     </script>
 </body>
