@@ -1,40 +1,20 @@
-// api/proxy.js
-export default async function handler(req, res) {
-    let { url } = req.query;
+const { createServer } = require('http');
+const { createProxyServer } = require('http-proxy');
+const url = require('url');
+const proxy = createProxyServer({});
 
-    if (!url) {
-        return res.status(400).json({ error: 'URL parameter is required' });
-    }
+const server = createServer((req, res) => {
+    const parsedUrl = url.parse(req.url, true);
+    const targetUrl = parsedUrl.query.target;
 
-    // Convert URL to lowercase and trim whitespace
-    url = url.toLowerCase().trim();
-
-    // Regular expression to check if the URL ends with common TLDs
-    const urlPattern = /^(https?:\/\/)?([\w-]+)\.(com|org|net|edu|gov|info|io|biz|co)(\/[\w-]*)?$/i;
-
-    let targetUrl;
-
-    if (urlPattern.test(url)) {
-        // If it matches the URL pattern, use it directly
-        targetUrl = url.startsWith('http') ? url : 'http://' + url;
+    if (targetUrl) {
+        proxy.web(req, res, { target: targetUrl, changeOrigin: true });
     } else {
-        // Otherwise, perform a Google search for the query
-        targetUrl = `https://www.google.com/search?q=${encodeURIComponent(url)}`;
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end('<html><body><h1>Proxy</h1><p>Use <code>?target=URL</code> to proxy a request.</p></body></html>');
     }
+});
 
-    try {
-        // Fetch the content from the provided URL
-        const response = await fetch(targetUrl);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const content = await response.text();
-
-        // Set headers to ensure the response is treated as HTML
-        res.setHeader('Content-Type', 'text/html');
-        res.status(200).send(content);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Failed to fetch the URL' });
-    }
-}
+server.listen(3000, () => {
+    console.log('Proxy server is listening on port 3000');
+});
