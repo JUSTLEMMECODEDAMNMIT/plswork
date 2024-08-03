@@ -15,6 +15,13 @@ const server = createServer((req, res) => {
     }
 });
 
+server.on('error', (err, req, res) => {
+    res.writeHead(500, {
+        'Content-Type': 'text/plain'
+    });
+    res.end('Something went wrong. And we are reporting a custom error message.');
+});
+
 server.listen(3000, () => {
     console.log('Proxy server is listening on port 3000');
 });
