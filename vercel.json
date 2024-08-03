@@ -1,11 +1,10 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "static/index.html", "use": "@vercel/static" },
-    { "src": "api/proxy.js", "use": "@vercel/node" }
-  ],
+  "functions": {
+    "api/proxy.js": {
+      "runtime": "nodejs14.x"
+    }
+  },
   "routes": [
     { "src": "/proxy", "dest": "/api/proxy.js" },
-    { "src": "/(.*)", "dest": "/static/index.html" }
-  ]
-}
+    { "src": "/(
