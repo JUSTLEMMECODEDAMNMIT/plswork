@@ -6,14 +6,19 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'URL parameter is required' });
     }
 
-    // Convert URL to lowercase and check if it's a full URL or a search query
+    // Convert URL to lowercase and trim whitespace
     url = url.toLowerCase().trim();
+
+    // Regular expression to check if the URL ends with common TLDs
+    const urlPattern = /^(https?:\/\/)?([\w-]+)\.(com|org|net|edu|gov|info|io|biz|co)(\/[\w-]*)?$/i;
+
     let targetUrl;
 
-    if (/^https?:\/\//i.test(url)) {
-        targetUrl = url;
+    if (urlPattern.test(url)) {
+        // If it matches the URL pattern, use it directly
+        targetUrl = url.startsWith('http') ? url : 'http://' + url;
     } else {
-        // Perform a Google search for the query
+        // Otherwise, perform a Google search for the query
         targetUrl = `https://www.google.com/search?q=${encodeURIComponent(url)}`;
     }
 
