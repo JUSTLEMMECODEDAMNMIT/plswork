@@ -15,27 +15,28 @@ app.use(express.static(path.join(__dirname, '../static')));
 app.get('/proxy', (req, res) => {
     const targetUrl = req.query.target;
 
-    console.log('Received proxy request for:', targetUrl);
-
-    if (targetUrl) {
-        proxy.web(req, res, { target: targetUrl }, (err) => {
-            if (err) {
-                console.error('Proxy error:', err);
-                res.status(500).send('Proxy error');
-            }
-        });
-    } else {
-        console.log('404 Not Found - No target URL provided');
-        res.status(404).send('Not Found');
+    if (!targetUrl) {
+        console.error('Target URL is missing');
+        return res.status(400).send('Target URL is required');
     }
+
+    console.log('Proxying request for:', targetUrl);
+
+    proxy.web(req, res, { target: targetUrl, changeOrigin: true }, (err) => {
+        if (err) {
+            console.error('Proxy error:', err);
+            res.status(500).send('Proxy error');
+        }
+    });
 });
 
-// Serve static files and handle errors
+// Serve static files
 app.use((req, res, next) => {
-    console.log('404 Not Found - Serving 404.html');
+    console.log('Serving static file for:', req.url);
     res.status(404).sendFile(path.join(__dirname, '../static', '404.html'));
 });
 
+// Error handling
 app.use((err, req, res, next) => {
     console.error('Server error:', err);
     res.status(500).sendFile(path.join(__dirname, '../static', '500.html'));
