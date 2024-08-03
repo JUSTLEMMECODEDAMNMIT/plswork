@@ -18,11 +18,6 @@ const server = http.createServer((req, res) => {
     }
 });
 
-server.on('error', (err) => {
-    console.error('Error:', err);
-    // Optionally handle specific errors or send a response
-});
-
 server.listen(3000, () => {
     console.log('Proxy server is listening on port 3000');
 });
