@@ -20,8 +20,7 @@ const server = http.createServer((req, res) => {
 
 server.on('error', (err) => {
     console.error('Error:', err);
-    // Optionally: res.writeHead(500, { 'Content-Type': 'text/plain' });
-    // res.end('Something went wrong. And we are reporting a custom error message.');
+    // Optionally handle specific errors or send a response
 });
 
 server.listen(3000, () => {
