@@ -44,6 +44,7 @@
         const fullscreenButton = document.getElementById('fullscreen-button');
         const robloxButton = document.getElementById('roblox-button');
         const iframe = document.getElementById('iframe');
+        const proxyServerUrl = 'http://your-proxy-server-url.com/proxy?target=';  // Replace with your proxy server URL
 
         function isValidUrl(string) {
             try {
@@ -65,10 +66,10 @@
             } else if (/\.[a-z]{2,}$/.test(input)) {
                 url = 'http://' + input;
             } else {
-                url = '/proxy?target=' + encodeURIComponent('https://www.google.com/search?q=' + encodeURIComponent(input));
+                url = 'https://www.google.com/search?q=' + encodeURIComponent(input);
             }
 
-            iframe.src = url;
+            iframe.src = proxyServerUrl + encodeURIComponent(url);
         });
 
         fullscreenButton.addEventListener('click', () => {
@@ -84,7 +85,7 @@
         });
 
         robloxButton.addEventListener('click', () => {
-            iframe.src = '/proxy?target=' + encodeURIComponent('https://www.roblox.com/games');
+            iframe.src = proxyServerUrl + encodeURIComponent('https://www.roblox.com/games');
         });
     </script>
 </body>
