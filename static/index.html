@@ -87,14 +87,6 @@
         robloxButton.addEventListener('click', () => {
             iframe.src = proxyServerUrl + encodeURIComponent('https://www.roblox.com/games');
         });
-
-        iframe.addEventListener('load', () => {
-            console.log('Iframe loaded:', iframe.src);
-        });
-
-        iframe.addEventListener('error', (err) => {
-            console.error('Iframe load error:', err);
-        });
     </script>
 </body>
 </html>
