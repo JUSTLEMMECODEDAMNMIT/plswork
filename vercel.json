@@ -3,7 +3,7 @@
   "builds": [
     {
       "src": "api/proxy.js",
-      "use": "@vercel/node@latest"
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -12,12 +12,18 @@
       "dest": "/api/proxy.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "/static/$1"
+      "src": "/static/(.*)",
+      "dest": "/$1"
     },
     {
       "src": "/",
-      "dest": "/static/index.html"
+      "dest": "/index.html"
+    }
+  ],
+  "fallbacks": [
+    {
+      "src": "/(.*)",
+      "dest": "/404.html"
     }
   ]
 }
