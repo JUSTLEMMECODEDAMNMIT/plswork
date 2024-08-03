@@ -14,12 +14,20 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            text-align: center;
         }
         form {
             margin-bottom: 20px;
         }
         input[type="text"] {
-            width: 300px;
+            width: 80%;
+            max-width: 600px;
             padding: 10px;
             margin-right: 10px;
             border: 1px solid #ccc;
@@ -33,27 +41,38 @@
             color: white;
             cursor: pointer;
         }
+        button:hover {
+            background-color: #005bb5;
+        }
         iframe {
             border: none;
             width: 100%;
             height: 80vh;
+            max-width: 1200px;
         }
     </style>
 </head>
 <body>
-    <form id="proxy-form">
-        <input type="text" id="url" placeholder="Enter URL" required>
-        <button type="submit">Go</button>
-    </form>
-    <iframe id="content"></iframe>
+    <div class="container">
+        <h1>Simple Proxy</h1>
+        <p>Enter a partial URL or domain to search:</p>
+        <form id="proxy-form">
+            <input type="text" id="url" placeholder="Enter domain or URL" required>
+            <button type="submit">Search</button>
+        </form>
+        <iframe id="content" src=""></iframe>
+    </div>
 
     <script>
         document.getElementById('proxy-form').addEventListener('submit', function(event) {
             event.preventDefault();
-            const url = document.getElementById('url').value;
-            // Set iframe source to the serverless function with the URL parameter
-            document.getElementById('content').src = `/api/proxy?url=${encodeURIComponent(url)}`;
+            const url = document.getElementById('url').value.trim();
+            if (url) {
+                // Set iframe source to the serverless function with the URL parameter
+                document.getElementById('content').src = `/api/proxy?url=${encodeURIComponent(url)}`;
+            }
         });
     </script>
 </body>
 </html>
+
