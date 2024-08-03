@@ -12,18 +12,20 @@
       "dest": "/api/proxy.js"
     },
     {
-      "src": "/static/(.*)",
-      "dest": "/$1"
+      "src": "/(.*)",
+      "dest": "/static/$1"
     },
     {
       "src": "/",
       "dest": "/index.html"
-    }
-  ],
-  "fallbacks": [
+    },
     {
-      "src": "/(.*)",
+      "src": "/404",
       "dest": "/404.html"
+    },
+    {
+      "src": "/500",
+      "dest": "/500.html"
     }
   ]
 }
